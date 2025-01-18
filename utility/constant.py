@@ -31,7 +31,7 @@ class Constant:
         "DATASTORE_MANAGEMENT_SERVICE": {
             "PORT": "5012",
             "ENDPOINT":{
-                "CHECK_RAW_DATA": "/api/datastore/check-raw-data",
+                "CHECK_RAW_DATA": "/datastore/job/fileset/verify",
                 "GET_DATASET_ANNOTATION_PATH": "/api/datastore/dataset/path/annotation",
                 "GET_DATASTORE_SET_DIRECTORY": "/api/datastore/path/set", 
                 
