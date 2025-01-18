@@ -1,8 +1,10 @@
+import threading
 import uuid
 from flask import Flask, g, jsonify, request, make_response
 from flask_cors import CORS
 import logging
 from api.job_api import job_api
+from classes.job_delegator import JobDelegator
 from utility.error import ThrowError
 
 
@@ -14,6 +16,8 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
 
+    
+
     #Register blueprints
     app.register_blueprint(job_api, url_prefix='/api')
 
@@ -21,6 +25,13 @@ def create_app():
     return app
 
 app = create_app()
+# Start thread for job deletation
+with app.app_context():
+    job_delegator = JobDelegator(app)
+
+    # Start the thread
+    job_delegation_thread = threading.Thread(target=job_delegator.run, daemon=True)
+    job_delegation_thread.start()
 
 
 @app.before_request

@@ -1,3 +1,4 @@
 .job
 .env
 record.log
+*.pyc
