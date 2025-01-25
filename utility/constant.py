@@ -9,7 +9,7 @@ class Constant:
     check_mail_endpoint = "/api/check_mail"
 
     id_length = 25
-    max_threads = 5
+    max_threads = 1
     max_queue = 10
 
     services = {
@@ -27,13 +27,20 @@ class Constant:
         },
         "DATA_PROCESSING_SERVICE": {
             "PORT": "5011",
+            "ENDPOINT": {
+                "REFORMAT_EXPORTED_FRAMES": "/api/data/reformat-exported-frames",
+                "MERGE_ANNOTATION_TO_DATASET": "/api/data/merge-annotation-to-dataset"
+            }
         },
         "DATASTORE_MANAGEMENT_SERVICE": {
             "PORT": "5012",
             "ENDPOINT":{
-                "CHECK_RAW_DATA": "/datastore/job/fileset/verify",
+                "CHECK_RAW_DATA": "/api/datastore/job/fileset/verify",
                 "GET_DATASET_ANNOTATION_PATH": "/api/datastore/dataset/path/annotation",
-                "GET_DATASTORE_SET_DIRECTORY": "/api/datastore/path/set", 
+                "GET_DATASTORE_SET_DIRECTORY": "/api/datastore/job/fileset/path", 
+
+                "VERIFY_DATASET_OUTPUT_PATH": "/api/datastore/dataset/path/annotation/verify",
+                
                 
             }
         },
@@ -51,13 +58,21 @@ class Constant:
             "ENDPOINT": {
                 "CREATE_LABEL_PROJECT": "/api/label-project/new",
                 "CREATE_IMPORT_STORAGE": "/api/label-project/import-storage",
-                "SYNC_IMPORT_STORAGE": "/api/label-project/import-storage/sync",
                 "CREATE_WEBHOOK": "/api/label-project/webhook",
-                "VALIDATE_CONFIG": "/api/label-project/validate-config"
-            },
+                "VALIDATE_CONFIG": "/api/label-project/validate-config",
+                "VALIDATE_PROJECT_CONFIG": "/api/label-project/validate-config/project",
+                "SYNC_IMPORT_STORAGE": "/api/label-project/import-storage/sync",
 
-        },
-    },
+                "VERIFY_TEMP_OUTPUT_PATH":"/api/label-project/temp-output/verify",
+                "REQUEST_EXPORT_ALL_FRAMES":"/api/label-project/pull/annotation/all-frames"
+            }
+
+        }
+    }
+
+    
+    
+
 
     
 

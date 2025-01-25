@@ -6,6 +6,7 @@ class IInsertJob(BaseModel):
     job_name: str
     tasks: str
     status: str
+    created_by: str
 
 class JobPayload:
 
@@ -15,6 +16,7 @@ class JobPayload:
             "job_name": data.get("job_name"),
             "tasks": json.dumps(data.get("tasks")),
             "data": json.dumps(data.get("payload")),
+            "created_by": data.get("user_id"),
             "status": "PENDING"
         }
         return payload

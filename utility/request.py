@@ -1,7 +1,8 @@
+import logging
 import traceback
 import requests
 
-from flask import current_app, request
+from flask import request
 from utility.constant import Constant
 from utility.error import ThrowError
 from utility.payload.request_payload import RequestPayload
@@ -14,9 +15,11 @@ class IInsert:
 
 
 class Request:
-    def __init__(self):
+    def __init__(self, logger = None):
         self.service = Constant.service
         self.headers = self.get_headers()
+        self.logger = logger or logging.getLogger(__name__)
+
         
     
     def get_headers(self):
@@ -36,14 +39,14 @@ class Request:
             response: record dictionary
         """
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["create"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["create"]
             payload = RequestPayload.form_insert_payload(request_id, table_name, self.service, data)
-            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- URL: {url} --- INSERT PAYLOAD: {payload}")
+            self.logger.info(f"{request_id} --- {self.__class__.__name__} --- URL: {url} --- INSERT PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
             raise ThrowError("Failed to insert data", 500)
         
 
@@ -59,14 +62,14 @@ class Request:
                 response: Response from the DAO
         """
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["read"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["read"]
             payload = RequestPayload.form_read_payload(request_id, table_name, self.service, data)
-            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- READ PAYLOAD: {payload}")
+            self.logger.info(f"{request_id} --- {self.__class__.__name__} --- READ PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
             raise ThrowError("Failed to read data", 500)
         
 
@@ -82,26 +85,26 @@ class Request:
                 response: Response from the DAO
         """
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["list"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["list"]
             payload = RequestPayload.read_list(request_id, table_name, self.service, data)
-            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- READ_LIST PAYLOAD: {payload}")
+            self.logger.info(f"{request_id} --- {self.__class__.__name__} --- READ_LIST PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
             raise ThrowError("Failed to read data", 500)
         
     def read_all(self, request_id="READ_ALL", query=None):
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["read_all"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["read_all"]
            
             payload={"query":query}
       
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
 
     def update(self, request_id, table_name, key, value, data):
         """Update data in the database
@@ -116,14 +119,14 @@ class Request:
                 response: Response from the DAO
         """
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["update"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["update"]
             payload = RequestPayload.form_update_payload(request_id, table_name, self.service, key, value, data)
-            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- UPDATE PAYLOAD: {payload}")
+            self.logger.info(f"{request_id} --- {self.__class__.__name__} --- UPDATE PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
         
     
     def delete(self, request_id, table_name, id):
@@ -137,14 +140,14 @@ class Request:
                 response: Response from the DAO
         """
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["delete"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["delete"]
             payload = RequestPayload.form_delete_payload(request_id, table_name, self.service, id)
-            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- DELETE PAYLOAD: {payload}")
+            self.logger.info(f"{request_id} --- {self.__class__.__name__} --- DELETE PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
     
 
         
@@ -159,11 +162,11 @@ class Request:
                 response: Response from the DAO
         """
         try:
-            url = Constant.base_url + Constant["DAO_SERVICE"]["PORT"] + Constant.dao["query"]
+            url = Constant.base_url + Constant.services["DAO_SERVICE"]["PORT"] + Constant.dao["query"]
             payload = RequestPayload.form_query_payload(request_id, self.service, query)
-            current_app.logger.info(f"{request_id} --- {self.__class__.__name__} --- QUERY PAYLOAD: {payload}")
+            self.logger.info(f"{request_id} --- {self.__class__.__name__} --- QUERY PAYLOAD: {payload}")
             response = requests.post(url, headers=self.headers, json=payload)
             return response.json()
         
         except Exception as e:
-            current_app.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
+            self.logger.error(f"{request_id} --- {self.__class__.__name__} --- {traceback.format_exc()} --- {e}")
