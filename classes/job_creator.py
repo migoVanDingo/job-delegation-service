@@ -40,7 +40,7 @@ class JobCreator:
             current_app.logger.info(f"{self.request_id} --- {self.__class__.__name__} --- INSERT_JOB_RESPONSE: {insert_job_response}")
             
             # Respond with the job ID
-            return insert_job_response["response"]
+            return {"status": "SUCCESS", "job_id":insert_job_response["response"]["job_id"]}
 
 
         except Exception as e:

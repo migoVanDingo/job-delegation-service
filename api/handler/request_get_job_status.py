@@ -16,7 +16,8 @@ class RequestGetJobStatus(AbstractHandler):
             # Get job status from the database
             dao_request = Request(logger=current_app.logger)
             job = dao_request.read(self.request_id, "jobs", {"job_id": self.job_id})
-            if "response" not in job:
+            current_app.logger.info(f"{self.request_id} --- {self.__class__.__name__} --- JOB_RESPONSE: {job}")
+            if "response" not in job or not job["response"]:
                 current_app.logger.error(f"{self.request_id} --- {self.__class__.__name__} --- JOB_NOT_FOUND")
                 raise Exception("Job not found", 404)
             

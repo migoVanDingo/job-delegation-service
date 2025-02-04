@@ -76,4 +76,23 @@ class Jobs:
 
             ]
         },
+        "REGISTER_USER": {
+            "TASKS": [
+                {
+                    "task_name": "INSERT_USER",
+                    "service": "USER_MANAGEMENT_SERVICE",
+                    "order_index": 1
+                },
+                {
+                    "task_name": "INSERT_USER_REGISTRATION",
+                    "service": "USER_MANAGEMENT_SERVICE",
+                    "order_index": 2
+                },
+                {
+                    "task_name": "EMAIL_USER_VERIFICATION",
+                    "service": "EMAIL_NOTIFICATION_SERVICE",
+                    "order_index": 3
+                }
+            ]
+        }
     }

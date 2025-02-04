@@ -49,6 +49,10 @@ class Constant:
         },
         "USER_MANAGEMENT_SERVICE": {
             "PORT": "5014",
+            "ENDPOINT": {
+                "INSERT_USER": "/api/user",
+                "INSERT_USER_REGISTRATION": "/api/user/register/init"
+            }
         },
         "TEAM_MANAGEMENT_SERVICE": {
             "PORT": "5015",
@@ -67,6 +71,12 @@ class Constant:
                 "REQUEST_EXPORT_ALL_FRAMES":"/api/label-project/pull/annotation/all-frames"
             }
 
+        },
+        "EMAIL_NOTIFICATION_SERVICE": {
+            "PORT": "5018",
+            "ENDPOINT": {
+                "EMAIL_USER_VERIFICATION": "/api/email/send/verification"
+            }
         }
     }
 
