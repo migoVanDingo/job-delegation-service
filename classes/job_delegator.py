@@ -37,9 +37,16 @@ class JobDelegator:
                 while True:
                     jobs = self.fetch_pending_jobs()
                     if jobs and len(jobs) > 0:
+                        self.logger.info(f"===============> PROCESSING NEW JOBS: {jobs}")
                         for job in jobs:
                             if not self.delegate_job(job):
                                 self.logger.info(f"JOB_ID: {job['job_id']} --- JOB_FAILED: {job['job_name']} --- LAST_STAGE: {job['last_stage_completed']} --- RETRIES: {job['retries']}")
+
+                                if job["retries"] >= Constant.max_retries:
+                                    self.logger.info(f"JOB_ID: {job['job_id']} --- JOB_FAILED: {job['job_name']} --- MAX_RETRIES_REACHED")
+                                    dao_request = Request(logger=self.logger)
+                                    dao_request.update(job["job_id"], "jobs", "job_id", job["job_id"], {"status": "FAILED"})
+                                    continue
                                 break
                             # executor.submit(self.delegate_job, job)
                     time.sleep(5)
@@ -55,7 +62,7 @@ class JobDelegator:
             pending_jobs = dao_request.query("FETCHING_JOBS",
                 "SELECT * FROM jobs WHERE status = 'PENDING' ORDER BY priority DESC, created_at ASC"
             )
-            logging.info(f"FETCH_PENDING_JOBS: {pending_jobs}")
+            
             if pending_jobs and "response" in pending_jobs:
                 return pending_jobs["response"]
             else:
@@ -97,7 +104,7 @@ class JobDelegator:
                 # if response.status_code == 500:
                 #     raise Exception(f"JOB_ID: {job_id} --- TASK_FAILED: {task['task_name']} --- STATUS: {response.status_code} --- ERROR: {response.text}")
                 response = response.json()
-                logging.info(f"JOB_ID: {job_id} --- TASK_RESPONSE: {response}")
+                logging.info(f"JOB_ID: {job_id} --- TASK: {task} --- TASK_RESPONSE: {response}")
                 job_payload = response["data"]
 
                 if "status" not in response:

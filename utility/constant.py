@@ -11,6 +11,7 @@ class Constant:
     id_length = 25
     max_threads = 1
     max_queue = 10
+    max_retries = 3
 
     services = {
         "DAO_SERVICE": {
@@ -31,7 +32,7 @@ class Constant:
                 "REFORMAT_EXPORTED_FRAMES": "/api/data/reformat-exported-frames",
                 "MERGE_ANNOTATION_TO_DATASET": "/api/data/merge-annotation-to-dataset"
             }
-        },
+        }, 
         "DATASTORE_MANAGEMENT_SERVICE": {
             "PORT": "5012",
             "ENDPOINT":{
@@ -40,6 +41,8 @@ class Constant:
                 "GET_DATASTORE_SET_DIRECTORY": "/api/datastore/job/fileset/path", 
 
                 "VERIFY_DATASET_OUTPUT_PATH": "/api/datastore/dataset/path/annotation/verify",
+                "INSERT_DATASTORE_FILE": "/api/datastore/file/copy",
+                "UPDATE_DATASTORE_FILE": "/api/datastore/annotation/add"
                 
                 
             }
