@@ -94,5 +94,34 @@ class Jobs:
                     "order_index": 3
                 }
             ]
+        },
+        "CLONE_REPO_PROJECT": {
+            "TASKS": [
+                {
+                    "task_name": "VERIFY_PROJECT_DIRECTORY",
+                    "service": "PROJECT_MANAGEMENT_SERVICE",
+                    "order_index": 1
+                },
+                {
+                    "task_name": "CLONE_PROJECT",
+                    "service": "PROJECT_MANAGEMENT_SERVICE",
+                    "order_index": 2
+                },
+                {
+                    "task_name": "INITIALIZE_VIRTUAL_ENV",
+                    "service": "PROJECT_MANAGEMENT_SERVICE",
+                    "order_index": 3
+                },
+                {
+                    "task_name": "INSTALL_DEPENDENCIES",
+                    "service": "PROJECT_MANAGEMENT_SERVICE",
+                    "order_index": 4
+                },
+                {
+                    "task_name": "CONFIGURE_ENVIRONMENT_VARIABLES",
+                    "service": "PROJECT_MANAGEMENT_SERVICE",
+                    "order_index": 5
+                }
+            ]
         }
     }

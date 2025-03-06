@@ -49,6 +49,13 @@ class Constant:
         },
         "PROJECT_MANAGEMENT_SERVICE": {
             "PORT": "5013",
+            "ENDPOINT": {
+                "VERIFY_PROJECT_DIRECTORY": "",
+                "CLONE_PROJECT": "",
+                "INITIALIZE_VIRTUAL_ENVIRONMENT": "",
+                "INSTALL_DEPENDENCIES": "",
+                "CONFIGURE_ENVIRONMENT_VARIABLES": ""
+            }
         },
         "USER_MANAGEMENT_SERVICE": {
             "PORT": "5014",
