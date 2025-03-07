@@ -105,13 +105,15 @@ class JobDelegator:
                 #     raise Exception(f"JOB_ID: {job_id} --- TASK_FAILED: {task['task_name']} --- STATUS: {response.status_code} --- ERROR: {response.text}")
                 response = response.json()
                 logging.info(f"JOB_ID: {job_id} --- TASK: {task} --- TASK_RESPONSE: {response}")
-                job_payload = response["data"]
+                
 
-                if "status" not in response:
+                if "status" not in response or "data" not in response:
                     raise Exception(f"JOB_ID: {job_id} --- Task failed --- TASK_NAME: {task['task_name']} --- STATUS: FAILED --- ERROR: {response}")
                 
-                elif response["status"] != "SUCCESS":
+                if response["status"] != "SUCCESS":
                     raise Exception(f"Task failed: {task['task_name']} --- {job_id} --- STATUS: {response['status']} --- ERROR: {response['message']}")
+                
+                job_payload = response["data"]
                 
                 # Remove current task from task list
                 task_list = [t for t in task_list if t["task_name"] != task["task_name"]]

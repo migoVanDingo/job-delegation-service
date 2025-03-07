@@ -1,6 +1,7 @@
 import os
 import random
 import string
+import time
 from utility.constant import Constant
 import logging
 
@@ -15,6 +16,7 @@ class Utils:
     
     @staticmethod
     def setup_logging(log_file='record.log', level=logging.DEBUG):
+        logging.Formatter.converter = time.localtime
         logging.basicConfig(
             filename=log_file,
             level=level,
